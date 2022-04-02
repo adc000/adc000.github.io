@@ -35,7 +35,7 @@ html, body {
 }
 
 .tbl_main {
-	border: 1px solid black;
+	border: 2px solid black;
 	width: 350px;
 	height: 350px;
 	transform: rotate(45deg);
@@ -43,6 +43,8 @@ html, body {
 	margin-right: auto;
 	margin-left: auto;
 	margin-bottom: auto;
+	background-color: white;
+	color: black;
 }
 
 tr, td {
@@ -64,21 +66,22 @@ td {
 	margin: auto;
 	font-size: 30px;
 	text-align: center;
+	font-weight: bold;
 }
 
 .btn_check {
-	background-color: #555555;
+	background-color: yellow;
 	border: none;
-	border-radius: 25px;
+	border-radius: 5px;
 	width: 200px;
-	color: white;
 	padding: 10px 22px;
 	text-align: center;
 	text-decoration: none;
 	display: inline-block;
-	font-size: 33px;
+	font-size: 18px;
 	cursor: pointer;
-	color: white;
+	color: red;
+	font-weight: bold;
 }
 
 .tbl_main td div {
@@ -90,23 +93,72 @@ td {
 
 .div_main_time {
 	width: 400px;
-	height: 150px;
+	height: 100px;
 	margin: auto;
 	color: black;
-	font-size: 100px;
+	font-size: 80px;
 	text-align: center;
 	vertical-align: middle;
-	line-height: 133px;
+	line-height: 100px;
+	font-weight: bold;
+}
+
+.popup_table {
+	text-align: center;
+	cursor: none;
+}
+
+.popup {
+	background-color: #00EE00;
+	border: none;
+	border-radius: 5px;
+	margin: auto;
+	width: 130px;
+	height: 30px;
+	padding: 8px 8px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 22px;
+	cursor: pointer;
+	color: black;
+	font-weight: bold;
+	line-height: 100%;
+}
+
+.popup_blank {
+	background-color: #ffffff;
+	border: none;
+	border-radius: 5px;
+	margin: auto;
+	width: 10px;
+	height: 30px;
+	padding: 8px 8px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 22px;
+	color: black;
+	font-weight: bold;
+	line-height: 100%;
+	cursor: auto;
 }
 
 </style>
 
 <body class="no_drag">
 	<div id="div_header" class="div_headfoot"></div>
+	<div id="div_main_time" class="div_main_time">20:00</div>
+	<table class="popup_table">
+		<td id="popup1" class="popup" onclick=window.open('hard_meteo.png')>하드메테오</td>
+		<td id="popup1" class="popup_blank"> </td>
+		<td id="popup2" class="popup">노말메테오</td>
+	</table>
+	<div id="div_header" class="div_headfoot"></div>
 	<div id="div_main_body" class="div_body">
 		<div id="div_cover1" class="div_cover">
 			<div id="div_check1_time" class="div_check_time">00:00</div>
-			<div id="div_check1_time_btn" class="div_check_time"><button class="btn_check" onclick="time_check('div_check1_time')">Click1</button></div>
+			<div id="div_check1_time_btn" class="div_check_time"><button class="btn_check" onclick="time_check('div_check1_time')">12시 노랑메테오</button></div>
 		</div>
 		<table id="tbl_main" class="tbl_main">
 			<tr>
@@ -127,11 +179,10 @@ td {
 		</table>
 		<div id="div_cover2" style="padding-top:90px;" class="div_cover">
 			<div id="div_check2_time" class="div_check_time">00:00</div>
-			<div id="div_check2_time_btn" class="div_check_time"><button class="btn_check" onclick="time_check('div_check2_time')">Click2</button></div>
+			<div id="div_check2_time_btn" class="div_check_time"><button class="btn_check" onclick="time_check('div_check2_time')">6시 노랑메테오</button></div>
 		</div>
-		<div id="div_main_time" class="div_main_time">20:00</div>
 	</div>
-	<!-- <div id="div_footer" class="div_headfoot"></div> -->
+	<div id="div_footer" class="div_headfoot"></div>
 
 </body>
 
@@ -170,7 +221,7 @@ td {
 		var index = dom.id.split('_')[2]-1;
 		var target = interval[Number(index)];
 		target.count -= 1;
-		
+
 		if (target.count > 0) {
 			dom.innerHTML = target.count;
 		} else {
@@ -184,10 +235,32 @@ td {
 		target.time-=1;
 		var txt = modifyNumber(Math.floor(target.time / 60)) + ":"	+ modifyNumber((target.time % 60));
 		$('#' + id).html(txt);
-		//console.log(target);
+
+		if (0 == target.count)
+		{
+			document.getElementById(id.split('_')[0]+'_'+id.split('_')[2]).style.backgroundColor = '#000000';
+			document.getElementById(id.split('_')[0]+'_'+id.split('_')[2]).style.color = '#FFFFFF';
+		}
+		else if (1 == target.count)
+		{
+			document.getElementById(id.split('_')[0]+'_'+id.split('_')[2]).style.backgroundColor = '#555555';
+			document.getElementById(id.split('_')[0]+'_'+id.split('_')[2]).style.color = '#FFFFFF';
+		}
+		else if (2 == target.count)
+		{
+			document.getElementById(id.split('_')[0]+'_'+id.split('_')[2]).style.backgroundColor = '#AAAAAA';
+			document.getElementById(id.split('_')[0]+'_'+id.split('_')[2]).style.color = '#000000';
+		}
+		else
+		{
+			document.getElementById(id.split('_')[0]+'_'+id.split('_')[2]).style.backgroundColor = '#FFFFFF';
+			document.getElementById(id.split('_')[0]+'_'+id.split('_')[2]).style.color = '#000000';
+		}
 
 		if (target.time == 0) {
 			clearInterval(target.obj);
+			document.getElementById(id.split('_')[0]+'_'+id.split('_')[2]).style.backgroundColor = '#FFFFFF';
+			document.getElementById(id.split('_')[0]+'_'+id.split('_')[2]).style.color = '#000000';
 			target.time = 100;
 			if (id != "td_div_5") target.count = 3;	
 			else target.count = 14;
